@@ -1,92 +1,51 @@
-# PASS: Knee Module
+# PASS: Patient Assessment Sensing System
 
-**Patient Assessment Sensing System (PASS)** is a modular lower-limb wearable that
-makes physiotherapy quantitative: it captures objective knee kinematics, gives
-patients real-time feedback, and produces clinically useful data for physiotherapists.
-
-PASS is **not tied to any single condition**. The same knee-flexion measurements apply
-across many rehabilitation contexts: post-surgical recovery (e.g. ACL reconstruction,
-knee replacement), sports and injury rehab, general musculoskeletal physiotherapy, and
-neurological rehabilitation (including post-stroke).
-
-This repository is the **knee module**: a quaternion-native engine that turns two
-IMU orientations (thigh + shank) into a validated knee-flexion signal and the
-clinical metrics derived from it.
+**PASS** is a modular lower-limb wearable that makes physiotherapy quantitative:
+it captures objective lower-limb kinematics and loading, gives patients real-time
+feedback, and produces clinically useful data for physiotherapists. PASS is **not
+tied to any single condition** - the same measurements support rehabilitation across
+many contexts (post-surgical recovery, sports/injury rehab, general musculoskeletal
+physiotherapy, and neurological rehabilitation such as post-stroke).
 
 > Course project for SUTD 30.007 Engineering Design Innovation, Team 01 *Super Strokers*.
-> This repo is the knee subsystem (sole software author).
 
-## What it measures
+This repository is a **monorepo**: each subsystem lives in its own top-level folder,
+self-contained with its own code, tests, firmware and README. Teammates work inside
+their subsystem's folder.
 
-From two IMUs on the thigh and shank, this module produces a knee-flexion angle and
-these **defensible, validated** metrics:
+## Subsystems
 
-- **Range of motion (ROM)**: core metric, quaternion-native, target **±2.5°**
-- **Angular velocity**: derivative of the angle
-- **Repetitions**: adaptive peak detection with confidence indicators
-- **Max flexion / max extension**
-- **Rep consistency**: variation across rep peaks
+| Folder | Module | What it covers | Status |
+|--------|--------|----------------|--------|
+| [`knee/`](knee/) | Knee kinematics | IMU-based knee-flexion angle + ROM/velocity/rep metrics (quaternion-native) | Built + tested (100 tests) |
+| [`hip/`](hip/) | Hip | Hip-joint orientation / kinematics | Planned |
+| [`feet/`](feet/) | Feet (FSR) | Plantar force sensing: weight-bearing/loading, foot-contact events (heel strike / toe off), gait phases | Planned |
+| [`actuation/`](actuation/) | Actuation | Assistive actuation + load-cell force/strength measurement | Planned |
+| [`housing/`](housing/) | Housing | Mechanical housing, mounting, power/enclosure | Planned |
 
-Loading, gait phases and muscle activity are *out of scope* for the knee module; they
-belong to the feet (FSR), hip and actuation modules of the full PASS platform.
+The **full PASS platform** integrates all subsystems; each folder delivers its own
+validated piece. See each subsystem's README for scope and status.
 
-## Architecture
-
-A **data-source abstraction**: synthetic, live-serial (BNO085) and the HuGaDB offline
-dataset all expose the *same* interface and feed the *same* biomechanics engine.
-Only the source changes; the engine never does.
+## Repository layout
 
 ```
-BNO085 -> XIAO ESP32-C3 -> serial -> source -> biomechanics engine -> metrics -> plot / dashboard
+pass/
+  knee/        <- knee subsystem (code, tests, firmware, dashboard, README, CLAUDE.md)
+  hip/         <- hip subsystem
+  feet/        <- feet / FSR subsystem
+  actuation/   <- actuation subsystem
+  housing/     <- housing / mechanical subsystem
+  README.md    <- this file
 ```
 
-Knee angle is computed **quaternion-native** via **swing-twist decomposition** to
-isolate pure flexion about the knee's mediolateral axis (no Euler pitch-subtraction,
-no gimbal lock). Straight-leg calibration removes the mounting offset.
+## Contributing (for teammates)
 
-## Layout
+1. Put your work inside **your subsystem's folder** (e.g. `feet/`). Keep code, tests,
+   firmware and docs together there.
+2. Add a short `README.md` in your folder: what the module does, how to run it, status.
+3. Keep each subsystem independently runnable (its own `requirements.txt` / setup).
+4. Don't reach across into another subsystem's folder; if you need shared code, raise
+   it so we can add a `shared/` module deliberately.
 
-| Path | What it is |
-|------|------------|
-| `biomechanics/` | Pure quaternion math: primitives, relative orientation, joint angles |
-| `calibrate.py`, `axis_calibration.py` | Straight-leg zero + live flexion-axis measurement |
-| `filters.py` | Butterworth low-pass (zero-phase offline + causal streaming) |
-| `sources/` | `synthetic`, `serial_source`, `hugadb` behind one `stream()` / `get_data()` interface |
-| `metrics.py`, `repetitions.py` | ROM, velocity, max flex/ext, rep detection |
-| `run_capture.py`, `live_plot.py` | Capture-to-graph accuracy report + real-time scrolling plot |
-| `dashboard/` | Streamlit dashboard |
-| `firmware/knee_imu_serial.ino` | XIAO ESP32-C3 + 2x BNO085 sketch emitting the serial CSV contract |
-| `test_*.py` | Test-first known-answer / property tests |
-
-## Setup
-
-```bash
-python -m venv .venv
-.venv\Scripts\activate        # Windows
-pip install -r requirements.txt
-```
-
-Run the test suite:
-
-```bash
-python -m pytest -q
-```
-
-### HuGaDB dataset (optional)
-
-The HuGaDB v2 CSVs are **not** included in this repo (third-party dataset, ~230 MB).
-To run the HuGaDB source and its tests, download HuGaDB and place the v2 CSV files
-in `./hugadb/`. Everything else (synthetic + serial paths) runs without it.
-
-## Hardware
-
-- **Compute:** Seeed XIAO ESP32-C3 (S3 compatible; SDA=D4, SCL=D5)
-- **Sensors:** 2x BNO085 IMU (thigh + shank), I2C at 100 kHz, addresses 0x4A / 0x4B
-- The BNO085 outputs fused quaternions on-chip (game rotation vector), so no host-side
-  fusion is needed on the live path. HuGaDB (raw accel/gyro) is the only Madgwick-fused path.
-
-## Status
-
-Engine, sources, calibration, filtering, metrics, firmware and live plot are built and
-**test-first verified**. Validated on real HuGaDB sit-to-stand (standing ~0°, sitting
-~61°, peak ~64°). Live-hardware validation follows once the BNO085 sensors are mounted.
+New here? Start with the [`knee/`](knee/) subsystem as a reference for how a subsystem
+is structured (source modules + test-first tests + firmware + README).

@@ -10,7 +10,7 @@ venv/
 env/
 
 # Large third-party dataset: HuGaDB is NOT redistributed here.
-# Download separately and place the v2 CSVs in ./hugadb/  (see README).
+# Download separately and place the v2 CSVs in ./knee/hugadb/  (see knee/README).
 hugadb/
 
 # Claude Code local tooling / machine-local settings
