@@ -1,0 +1,16 @@
+# PASS dashboard — brand theme (deep-teal clinical).
+# Read at server start; the finer component styling lives in dashboard/theme.py.
+[theme]
+base = "light"
+primaryColor = "#0E4C5E"              # deep teal — brand primary
+backgroundColor = "#F6F8FA"           # cool off-white app background
+secondaryBackgroundColor = "#FFFFFF"  # cards / sidebar surfaces
+textColor = "#16262E"                 # deep slate
+linkColor = "#0E4C5E"
+borderColor = "#E4E9EE"
+baseRadius = "0.7rem"
+# Brand type pairing. The @font-face definitions are self-hosted in
+# dashboard/_fonts.css (base64) and injected by theme.inject_css; these names
+# make Streamlit's own components use them too.
+font = "Geist"
+headingFont = "Fraunces"

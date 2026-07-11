@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# Virtual environment (recreate with requirements.txt)
+.venv/
+venv/
+env/
+
+# Large third-party dataset — HuGaDB is NOT redistributed here.
+# Download separately and place the v2 CSVs in ./hugadb/  (see README).
+hugadb/
+
+# Claude Code local tooling / machine-local settings
+.claude/
+
+# Exports / build artifacts
+*.pdf
+
+# OS / editor cruft
+Thumbs.db
+.DS_Store
+.vscode/
