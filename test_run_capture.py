@@ -66,7 +66,7 @@ def test_metric_lines_report_full_set():
 
 def test_reps_line_is_never_a_bare_number():
     """Rep reporting always includes the adaptive prominence, and edge/partial
-    context when present — so a count is never shown without its confidence."""
+    context when present - so a count is never shown without its confidence."""
     fs = 100.0
     t = np.arange(0, 8, 1 / fs)
     full = 30 * (1 - np.cos(2 * np.pi * t / 2.0))

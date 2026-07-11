@@ -40,7 +40,7 @@ def test_average_of_identical_quaternions_is_that_quaternion():
 
 def test_average_is_sign_invariant_double_cover():
     """
-    Mixing q and -q (the same rotation) must not cancel — the whole reason we
+    Mixing q and -q (the same rotation) must not cancel - the whole reason we
     use Markley (q q^T is sign-invariant) instead of a naive component mean.
     """
     q = axis_angle_quat([0.5, -0.2, 0.8], 33.0)

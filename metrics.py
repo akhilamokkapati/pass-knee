@@ -1,6 +1,6 @@
 """
 metrics.py
-PASS knee module — direct angle-signal metrics (the parameter-free reductions).
+PASS knee module - direct angle-signal metrics (the parameter-free reductions).
 
 These are the metrics that fall straight out of the knee-angle signal with no
 tuning: range of motion, max flexion, max extension, and angular velocity. They

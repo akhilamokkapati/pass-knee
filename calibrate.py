@@ -1,6 +1,6 @@
 """
 calibrate.py
-PASS knee module — straight-leg (quiet-standing) calibration.
+PASS knee module - straight-leg (quiet-standing) calibration.
 
 Calibration = straight-leg zero: capture a quiet-standing window and treat the
 average relative thigh->shank orientation as 0 deg. That average becomes the
@@ -81,7 +81,7 @@ def calibrate_from_quaternions(q_thigh: np.ndarray,
     """
     Compute the straight-leg neutral from a window of thigh/shank quaternions.
 
-    We average the RELATIVE orientation (knee_relative per sample) — that is
+    We average the RELATIVE orientation (knee_relative per sample) - that is
     exactly "treat this relative orientation as 0 deg". Returns the neutral plus
     the window's angular spread as a quality metric.
     """

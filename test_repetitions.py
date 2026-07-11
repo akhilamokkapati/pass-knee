@@ -2,7 +2,7 @@
 test_repetitions.py
 Known-answer tests for repetition detection, with focused cases for the real
 failure modes: partial reps at edges, small-wiggle rejection, mid-session pause,
-and — the clinically important one — SHALLOW low-ROM rehab reps that a fixed
+and - the clinically important one - SHALLOW low-ROM rehab reps that a fixed
 prominence floor would miss.
 
 Run:  python -m pytest test_repetitions.py -v
@@ -82,7 +82,7 @@ def test_adaptive_prominence_beats_a_fixed_floor():
     """
     THE CLINICAL POINT. Shallow ~12 deg reps: the adaptive threshold counts all
     four, whereas a fixed 15 deg prominence floor (what we almost shipped) would
-    miss them entirely — failing exactly the low-ROM patients who need counting.
+    miss them entirely - failing exactly the low-ROM patients who need counting.
     """
     sig = rep_signal(4, 12.0)
     adaptive = detect_reps(sig, FS)
@@ -115,7 +115,7 @@ def test_hugadb_sit_to_stand_rep_count(hugadb_source):
     """
     Real validation: this file's sit-to-stand cycles are ~64 deg, and the
     recording begins AND ends mid-sit. The detector reports the unambiguous
-    interior reps (3) and — the point of the confidence indicators — flags BOTH
+    interior reps (3) and - the point of the confidence indicators - flags BOTH
     edges as partial, so a clinician knows movement was cut at both boundaries
     (true count is 3-5) rather than trusting a bare number.
     """

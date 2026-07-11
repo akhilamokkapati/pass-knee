@@ -1,6 +1,6 @@
 """
 synthetic.py
-PASS data source — synthetic knee kinematics.
+PASS data source - synthetic knee kinematics.
 
 Purpose: develop and validate the whole chain before the BNO085 hardware
 arrives, and give us a source whose answer we KNOW exactly.
@@ -10,13 +10,13 @@ The design point that makes this trustworthy is an INDEPENDENT FORWARD MODEL:
   1. choose a ground-truth flexion angle theta(t) from a smooth rep profile;
   2. construct the two segment quaternions directly from theta (forward model),
      so their relative rotation IS theta about the flexion axis;
-  3. set knee_angle_deg = theta, the ground truth — the engine is never called
+  3. set knee_angle_deg = theta, the ground truth - the engine is never called
      here.
 
 The biomechanics engine runs the other direction (quaternions -> angle). Because
 the emitted knee_angle_deg comes from the forward model and NOT from the engine,
 a round-trip check (engine recovers knee_angle_deg from the quaternions) compares
-two independent implementations — it is not the engine graded against itself.
+two independent implementations - it is not the engine graded against itself.
 
 Interface (shared by every PASS source):
   stream()           -> infinite generator of Packet, one sample at a time

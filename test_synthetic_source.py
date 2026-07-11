@@ -97,7 +97,7 @@ def test_noise_perturbs_quaternions_but_not_ground_truth():
     """
     Reinforces the independence: with noise on, knee_angle_deg stays the clean
     forward-model value (identical across seeds), while the engine reading now
-    differs from it by roughly the injected noise — small but nonzero.
+    differs from it by roughly the injected noise - small but nonzero.
     """
     clean = SyntheticSource(noise_deg=0.0).get_data(1.0)
     noisy = SyntheticSource(noise_deg=3.0, seed=1).get_data(1.0)

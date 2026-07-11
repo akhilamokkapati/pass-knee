@@ -2,7 +2,7 @@
 test_relative_orientation.py
 Known-answer tests for the knee relative-orientation layer. Every case is a
 rotation whose result we can work out by hand, so a pass is real evidence the
-layer is correct — the same standard as test_quaternion_math.py.
+layer is correct - the same standard as test_quaternion_math.py.
 
 Run:  python -m pytest test_relative_orientation.py -v
   or: python test_relative_orientation.py

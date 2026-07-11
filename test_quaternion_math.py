@@ -1,7 +1,7 @@
 """
 test_quaternion_math.py
 Verify the quaternion primitives against rotations whose answers we KNOW
-by hand. If these pass, the knee-angle math is trustworthy — this is the
+by hand. If these pass, the knee-angle math is trustworthy - this is the
 evidence you can point to if anyone questions the software's correctness.
 
 Run:  python -m pytest test_quaternion_math.py -v

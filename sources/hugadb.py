@@ -1,6 +1,6 @@
 """
 hugadb.py
-PASS data source — HuGaDB offline dataset (real human lower-limb IMU).
+PASS data source - HuGaDB offline dataset (real human lower-limb IMU).
 
 Second source behind the SAME interface as SyntheticSource (stream / get_data,
 Packet / Capture). Its purpose is to validate the knee engine on REAL human
@@ -12,7 +12,7 @@ The BNO085 fuses accel+gyro into quaternions ON-CHIP, so the live path never
 runs a fusion filter. HuGaDB is RAW accelerometer + gyroscope with no on-chip
 fusion, so this offline path must fuse it itself. We use the `ahrs` library's
 Madgwick AHRS (IMU form: gyro + accel), which outputs scalar-first (w,x,y,z)
-quaternions — already our convention. Fusion runs once at load and is cached.
+quaternions - already our convention. Fusion runs once at load and is cached.
 
 NO GROUND-TRUTH ANGLE
 ---------------------
@@ -27,7 +27,7 @@ HuGaDB's shin/thigh IMUs are mounted in the dataset's own frame, so knee flexion
 is NOT about our synthetic +x default. A spike on HuGaDB_v2_various_01_00 (a
 sit-to-stand recording), using a standing window as the straight-leg neutral,
 gave the de-neutraled relative rotation vector during sitting as
-[x, y, z] = [-11, -59, -1.7] deg — i.e. the flexion is dominated by -Y (total
+[x, y, z] = [-11, -59, -1.7] deg - i.e. the flexion is dominated by -Y (total
 knee angle 60.1 deg, of which the Y-twist is ~59 deg; the -11 on X is off-axis
 ab/adduction that swing-twist correctly discards). Standing read 2.7 deg, sitting
 60.1 deg. Hence HUGADB_FLEXION_AXIS = (0, -1, 0), so sitting reads as positive

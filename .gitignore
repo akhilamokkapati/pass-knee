@@ -9,7 +9,7 @@ __pycache__/
 venv/
 env/
 
-# Large third-party dataset — HuGaDB is NOT redistributed here.
+# Large third-party dataset: HuGaDB is NOT redistributed here.
 # Download separately and place the v2 CSVs in ./hugadb/  (see README).
 hugadb/
 

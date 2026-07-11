@@ -1,8 +1,8 @@
-# PASS dashboard — brand theme (deep-teal clinical).
+# PASS dashboard - brand theme (deep-teal clinical).
 # Read at server start; the finer component styling lives in dashboard/theme.py.
 [theme]
 base = "light"
-primaryColor = "#0E4C5E"              # deep teal — brand primary
+primaryColor = "#0E4C5E"              # deep teal - brand primary
 backgroundColor = "#F6F8FA"           # cool off-white app background
 secondaryBackgroundColor = "#FFFFFF"  # cards / sidebar surfaces
 textColor = "#16262E"                 # deep slate

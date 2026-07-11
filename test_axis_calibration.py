@@ -65,7 +65,7 @@ def test_recovers_known_flexion_axis():
 
 def test_recovered_axis_gives_positive_flexion_in_engine():
     """The measured axis, used in knee_flexion_angle, reads the bend as positive
-    and ~= the true bend magnitude — i.e. it drops straight into the engine."""
+    and ~= the true bend magnitude - i.e. it drops straight into the engine."""
     true_axis = normalize([0.0, -1.0, 0.0])
     nt, ns, bt, bs = _poses(true_axis, 50.0)
     cal = calibrate_flexion_axis(nt, ns, bt, bs)

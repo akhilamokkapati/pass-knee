@@ -1,6 +1,6 @@
 """
 schema.py
-PASS data-source schema — the shared packet/capture contract.
+PASS data-source schema - the shared packet/capture contract.
 
 Every PASS source (synthetic, HuGaDB offline, live serial) emits these SAME
 types, so the biomechanics engine and the runners never depend on which source
@@ -13,7 +13,7 @@ definition from here rather than from each other.
 
 knee_angle_deg is the source's REFERENCE angle when it has one (synthetic: the
 independent forward-model ground truth; firmware: on-device value). A source
-with no reference (HuGaDB, which has no labelled knee angle) sets it to NaN — the
+with no reference (HuGaDB, which has no labelled knee angle) sets it to NaN - the
 engine still computes the angle from the quaternions downstream.
 """
 

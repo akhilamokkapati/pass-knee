@@ -1,6 +1,6 @@
 """
 joint_angles.py
-PASS Biomechanics — the knee flexion-angle metric.
+PASS Biomechanics - the knee flexion-angle metric.
 
 This is the single, authoritative definition of the scalar the knee module
 exists to produce: knee_angle_deg. It takes the clean knee relative quaternion
@@ -17,7 +17,7 @@ Two conventions are decided HERE and nowhere else:
 
   AXIS   The mediolateral flexion axis is a NAMED PARAMETER, not a hardcoded
          constant, because the true axis depends on how the IMU physically sits
-         on the limb — a mounting/calibration quantity we pin later. It defaults
+         on the limb - a mounting/calibration quantity we pin later. It defaults
          to +x (DEFAULT_FLEXION_AXIS). Reversing the axis negates the reading,
          which is exactly why the sign has to be a calibratable input.
 
@@ -45,13 +45,13 @@ def knee_flexion_angle(q_rel: np.ndarray,
     q_rel : knee relative quaternion(s) from relative_orientation.knee_relative
             (optionally after remove_offset for calibration). (4,) or (N,4).
     axis  : unit flexion axis in the joint frame; defaults to +x. This is the
-            calibratable mounting direction — its orientation sets the sign.
+            calibratable mounting direction - its orientation sets the sign.
 
     Returns a scalar for a single quaternion, or (N,) for a batch. Positive is
     flexion, negative is hyperextension.
 
     q_rel is canonicalized (w >= 0) first so a sensor reporting -q instead of q
-    — physically the same rotation — cannot flip the reported angle.
+    - physically the same rotation - cannot flip the reported angle.
     """
     return angle_about_axis(canonicalize(q_rel), np.asarray(axis, dtype=float))
 

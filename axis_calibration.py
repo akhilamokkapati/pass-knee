@@ -1,10 +1,10 @@
 """
 axis_calibration.py
-PASS knee module — measure the live knee flexion AXIS on the mounted hardware.
+PASS knee module - measure the live knee flexion AXIS on the mounted hardware.
 
 WHY THIS EXISTS (the one thing gated by sensor day)
 ---------------------------------------------------
-The knee flexion axis is not (1,0,0) in general — it depends on how the two
+The knee flexion axis is not (1,0,0) in general - it depends on how the two
 BNO085s physically sit on the limb. On the HuGaDB dataset it turned out to be
 ~ -Y; on our own hardware it is unknown until the sensors are strapped on. Rather
 than GUESS the axis, we MEASURE it: capture a straight-leg pose and a clearly
@@ -13,9 +13,9 @@ result is a defensible, measured number and it plugs straight into the engine as
 the `axis=` argument to joint_angles.knee_flexion_angle.
 
 Everything here reuses validated code:
-  * calibrate.calibrate_from_quaternions  — Markley average of each pose (and a
+  * calibrate.calibrate_from_quaternions  - Markley average of each pose (and a
     "held still" residual for free);
-  * relative_orientation.remove_offset     — the neutral->bent relative rotation;
+  * relative_orientation.remove_offset     - the neutral->bent relative rotation;
   * (the only new bit) the standard axis-angle read of a quaternion.
 
 USAGE ON HARDWARE (the axis calibration step)

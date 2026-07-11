@@ -1,6 +1,6 @@
 """
 test_joint_angles.py
-Known-answer tests for the knee flexion-angle metric — the single scalar the
+Known-answer tests for the knee flexion-angle metric - the single scalar the
 whole knee module exists to produce. Every case is hand-checkable, so a pass is
 real evidence the metric is correct.
 

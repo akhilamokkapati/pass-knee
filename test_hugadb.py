@@ -1,8 +1,8 @@
 """
 test_hugadb.py
 Tests for the HuGaDB offline source: correct parsing/fusion, interface parity
-with the synthetic source, honest NaN ground truth, and — the point of using
-real data — a PHYSIOLOGICALLY PLAUSIBLE knee flexion during sit-to-stand,
+with the synthetic source, honest NaN ground truth, and - the point of using
+real data - a PHYSIOLOGICALLY PLAUSIBLE knee flexion during sit-to-stand,
 anchored to published clinical numbers rather than eyeballing.
 
 The HuGaDB source (Madgwick fusion) is built once via the session-scoped
@@ -114,7 +114,7 @@ def test_sit_to_stand_peak_flexion_in_clinical_range(hugadb_source):
 
 def test_flexion_axis_choice_matters(hugadb_source):
     """Swing-twist about the empirical -Y axis captures far more of the knee
-    motion than the synthetic +x default would — evidence the axis is real."""
+    motion than the synthetic +x default would - evidence the axis is real."""
     cap = hugadb_source.get_data()
     rel = remove_offset(knee_relative(cap.quat_thigh, cap.quat_shank),
                         _standing_neutral(cap))

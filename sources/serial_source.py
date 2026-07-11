@@ -1,6 +1,6 @@
 """
 serial_source.py
-PASS data source — live serial link to the XIAO + BNO085 firmware.
+PASS data source - live serial link to the XIAO + BNO085 firmware.
 
 Built BEFORE the sensors arrive so hardware day is "flash, wire, run" rather than
 "write a parser while debugging hardware". It parses the firmware's CSV packet
@@ -148,5 +148,5 @@ class SerialSource:
 
 
 if __name__ == "__main__":
-    print("PASS serial_source ready — firmware line format:")
+    print("PASS serial_source ready - firmware line format:")
     print("  seq,t_ms,knee_angle_deg,qtw,qtx,qty,qtz,qsw,qsx,qsy,qsz")

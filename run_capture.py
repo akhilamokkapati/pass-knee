@@ -1,6 +1,6 @@
 """
 run_capture.py
-PASS knee module — capture-to-graph + accuracy report, for any source.
+PASS knee module - capture-to-graph + accuracy report, for any source.
 
 Pulls a session through the SAME source interface (source.get_data -> Capture),
 runs the biomechanics engine over it, low-pass filters the knee angle offline
@@ -10,7 +10,7 @@ runs the biomechanics engine over it, low-pass filters the knee angle offline
     visible and any filtfilt edge artifacts on sharp transitions are catchable),
     with ground truth drawn too when the source has it, and activity bands shaded
     when the source provides labels;
-  * printed summary stats — a citable number, not just a picture.
+  * printed summary stats - a citable number, not just a picture.
 
 Two sources are wired here; the analysis/plot functions are source-agnostic and
 take the flexion axis, neutral and sample rate as arguments:
@@ -103,7 +103,7 @@ def straight_leg_neutral(cap, fs_hz: float) -> np.ndarray:
 
 
 def activity_flexion_lines(activity: np.ndarray, angle: np.ndarray) -> list[str]:
-    """Per-activity median and peak flexion — the citable ROM numbers."""
+    """Per-activity median and peak flexion - the citable ROM numbers."""
     lines = []
     for lab in dict.fromkeys(activity):          # unique, order-preserving
         m = activity == lab
@@ -112,7 +112,7 @@ def activity_flexion_lines(activity: np.ndarray, angle: np.ndarray) -> list[str]
 
 
 def _reps_line(r) -> str:
-    """Rep count WITH its confidence indicators — never a bare number."""
+    """Rep count WITH its confidence indicators - never a bare number."""
     s = f"reps: {r.count}"
     edges = [e for e, flag in (("start", r.partial_at_start), ("end", r.partial_at_end)) if flag]
     if edges:
@@ -230,15 +230,15 @@ def main():
         cap = src.get_data(args.duration)
         fs, axis = src.fs_hz, HUGADB_FLEXION_AXIS
         neutral = straight_leg_neutral(cap, fs)
-        title = f"PASS knee — HuGaDB real IMU (Madgwick-fused)  [{src.filepath.name}]"
-        caption = ("real human IMU; no ground-truth angle (knee_angle_deg=NaN) — "
+        title = f"PASS knee - HuGaDB real IMU (Madgwick-fused)  [{src.filepath.name}]"
+        caption = ("real human IMU; no ground-truth angle (knee_angle_deg=NaN) - "
                    "raw vs offline-filtered shown; error is not sensor-vs-limb accuracy")
         gt = None
     else:
         src = SyntheticSource(noise_deg=args.noise, seed=args.seed)
         cap = src.get_data(args.duration or 5.0)
         fs, axis, neutral = src.rate_hz, DEFAULT_FLEXION_AXIS, IDENTITY_QUAT
-        title = "PASS knee — synthetic (engine recovery vs ground truth)"
+        title = "PASS knee - synthetic (engine recovery vs ground truth)"
         caption = ("validation = engine vs synthetic forward model (numerical), "
                    "NOT sensor-vs-limb accuracy")
         gt = cap.knee_angle_deg
@@ -246,7 +246,7 @@ def main():
     raw = recovered_angle(cap, axis=axis, q_neutral=neutral)
     filtered = lowpass_offline(raw, cutoff_hz=args.cutoff, fs_hz=fs)
 
-    # summary stats — metrics lead (the feasibility numbers), then validation,
+    # summary stats - metrics lead (the feasibility numbers), then validation,
     # then filter effect, then per-activity context.
     interior = slice(int(0.1 * raw.size), int(0.9 * raw.size) or None)
     stats_lines = metric_lines(filtered, fs)

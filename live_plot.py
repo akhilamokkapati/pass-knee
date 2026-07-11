@@ -1,14 +1,14 @@
 """
 live_plot.py
-PASS knee module — real-time scrolling knee-angle plot (live path).
+PASS knee module - real-time scrolling knee-angle plot (live path).
 
 Drives a source's stream() in real time, runs the engine per sample, low-passes
 the angle with the CAUSAL StreamingLowpass (filtfilt cannot run live), and shows
 a scrolling plot of raw + filtered knee flexion.
 
 Two cadences are deliberately DECOUPLED so the plot never chokes:
-  * sample cadence ~ source rate (e.g. 100 Hz) — driven by a wall-clock pump;
-  * redraw cadence ~ target_fps (e.g. 30 fps) — driven by the animation timer.
+  * sample cadence ~ source rate (e.g. 100 Hz) - driven by a wall-clock pump;
+  * redraw cadence ~ target_fps (e.g. 30 fps) - driven by the animation timer.
 Each redraw frame pulls however many samples should have arrived since the last
 frame, runs the hot loop on each, then redraws ONCE.
 
@@ -116,7 +116,7 @@ class LiveKneePlot:
         (self._filt_line,) = self.ax.plot([], [], color="C0", lw=1.8, label="filtered")
         self.ax.set_xlabel("Time (s)")
         self.ax.set_ylabel("Knee flexion (deg)")
-        self.ax.set_title("PASS knee — live (synthetic stream)")
+        self.ax.set_title("PASS knee - live (synthetic stream)")
         self.ax.legend(loc="upper right")
         self.ax.grid(alpha=0.3)
         return self.fig

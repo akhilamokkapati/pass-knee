@@ -1,6 +1,6 @@
 """
 repetitions.py
-PASS knee module — repetition detection and rep consistency.
+PASS knee module - repetition detection and rep consistency.
 
 Kept separate from metrics.py because, unlike the direct reductions, rep counting
 is DETECTION-based: it has tuning parameters and real failure modes (missed reps,
@@ -10,8 +10,8 @@ focused tests, and a caller deserves confidence indicators, not just a bare coun
 ADAPTIVE PROMINENCE (why the threshold is not a fixed number)
 -------------------------------------------------------------
 A fixed prominence floor (say 15 deg) looks perfect on healthy ~60 deg
-sit-to-stand but would start MISSING reps for our actual users — stroke rehab
-patients whose early-recovery ROM may be only 20-30 deg — i.e. it fails exactly
+sit-to-stand but would start MISSING reps for our actual users - stroke rehab
+patients whose early-recovery ROM may be only 20-30 deg - i.e. it fails exactly
 the population that most needs accurate counting. So the peak prominence adapts
 to each session:
 
@@ -23,10 +23,10 @@ still rejects pure noise when the patient is nearly still. The computed value is
 reported (effective_prominence_deg) so a clinician can see what was applied.
 
 CONFIDENCE INDICATORS returned alongside the count:
-  * peak_prominences_deg  — per-rep prominence (how clearly each rep stands out);
-  * partial_at_start / partial_at_end — the window boundary cut through a flexed
+  * peak_prominences_deg  - per-rep prominence (how clearly each rep stands out);
+  * partial_at_start / partial_at_end - the window boundary cut through a flexed
     state, so an edge rep may be incomplete;
-  * amplitude_cv, period_cv — rep consistency in amplitude and in timing (a
+  * amplitude_cv, period_cv - rep consistency in amplitude and in timing (a
     mid-session pause shows up as an elevated period_cv, not a wrong count).
 
 Operates on the (filtered) knee flexion angle in degrees.

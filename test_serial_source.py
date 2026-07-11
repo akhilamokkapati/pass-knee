@@ -1,12 +1,12 @@
 """
 test_serial_source.py
-Tests for the live serial source, driven entirely by SIMULATED firmware lines —
+Tests for the live serial source, driven entirely by SIMULATED firmware lines -
 no hardware, no pyserial. The point is that when the BNO085s arrive, the parser
 and the whole path are already proven.
 
 The centerpiece asserts the design contract: the engine recomputes the knee
 angle from the RAW QUATERNIONS (the validated path), while the firmware's
-on-device angle is only carried as a cross-check — so a wrong firmware angle
+on-device angle is only carried as a cross-check - so a wrong firmware angle
 does NOT corrupt the measured angle.
 
 Run:  python -m pytest test_serial_source.py -v
@@ -87,7 +87,7 @@ def test_engine_is_truth_firmware_angle_is_crosscheck():
     THE CONTRACT. Simulate a firmware that reports a BIASED on-device angle
     (+7 deg). The engine must still recover the TRUE angle from the quaternions,
     and the biased firmware value must survive only in knee_angle_deg as a
-    cross-check — never affecting the measured angle.
+    cross-check - never affecting the measured angle.
     """
     src = SyntheticSource(seed=2)
     truth, lines = [], []
@@ -105,7 +105,7 @@ def test_engine_is_truth_firmware_angle_is_crosscheck():
     assert np.max(np.abs(engine_angle - truth)) < 1e-4
     # firmware angle is carried as-is (biased) for cross-check only
     assert np.allclose(cap.knee_angle_deg, truth + 7.0, atol=1e-3)
-    # and the two disagree by ~the bias — that's the cross-check signal
+    # and the two disagree by ~the bias - that's the cross-check signal
     assert abs(np.mean(cap.knee_angle_deg - engine_angle) - 7.0) < 1e-2
 
 

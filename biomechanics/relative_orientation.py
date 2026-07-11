@@ -1,6 +1,6 @@
 """
 relative_orientation.py
-PASS Biomechanics — the knee joint relative-orientation layer.
+PASS Biomechanics - the knee joint relative-orientation layer.
 
 quaternion_math.py is pure algebra: it does not know what a thigh, a shank, or
 a knee is. This module is the first place that assigns anatomical meaning. It

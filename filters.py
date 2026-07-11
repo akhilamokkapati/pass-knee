@@ -1,6 +1,6 @@
 """
 filters.py
-PASS knee module — low-pass filtering for the knee-angle signal.
+PASS knee module - low-pass filtering for the knee-angle signal.
 
 The BNO085 fused quaternions carry per-sample noise that turns into per-sample
 angle noise; raw, it can spike past the +/-2.5 deg clinical target even when its

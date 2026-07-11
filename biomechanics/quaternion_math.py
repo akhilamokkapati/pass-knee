@@ -1,6 +1,6 @@
 """
 quaternion_math.py
-PASS Biomechanics — quaternion primitives.
+PASS Biomechanics - quaternion primitives.
 
 Small, pure, dependency-light quaternion helpers used by the orientation and
 joint-angle modules. Kept separate so each function can be unit-tested in
@@ -50,7 +50,7 @@ def relative(q_a: np.ndarray, q_b: np.ndarray) -> np.ndarray:
     Orientation of frame B expressed relative to frame A: q_a^-1 (x) q_b.
 
     In PASS terms: pass thigh as A and shank as B, and you get the rotation
-    that carries the thigh frame onto the shank frame — i.e. the knee joint
+    that carries the thigh frame onto the shank frame - i.e. the knee joint
     rotation, independent of how the whole leg is oriented in the world.
     """
     return multiply(conjugate(normalize(q_a)), normalize(q_b))
@@ -63,7 +63,7 @@ def angle_about_axis(q: np.ndarray, axis: np.ndarray) -> np.ndarray:
 
     Why this and not 2*acos(w): the total quaternion angle mixes flexion with
     any ab/adduction or internal rotation. For a knee we want ONLY the flexion
-    component — the rotation about the mediolateral axis. Swing-twist isolates
+    component - the rotation about the mediolateral axis. Swing-twist isolates
     exactly the 'twist' about the chosen axis and discards the rest.
 
     axis : (3,) unit vector of the flexion axis in the joint frame.

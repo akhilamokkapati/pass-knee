@@ -36,7 +36,7 @@ def test_ingest_filters_and_buffers():
 
 def test_filtered_stream_is_causal_reference():
     """The live filtered buffer equals a standalone causal StreamingLowpass run
-    over the same raw sequence — i.e. it is the streaming filter with state, not
+    over the same raw sequence - i.e. it is the streaming filter with state, not
     a zero-phase filtfilt."""
     src = SyntheticSource(noise_deg=2.0, seed=1)
     plot = LiveKneePlot(src, window_s=100.0, cutoff_hz=6.0)
@@ -59,7 +59,7 @@ def test_buffers_are_bounded_and_scroll():
 
 
 def test_pump_decouples_sample_cadence_from_wall_clock():
-    """The pump ingests ~ elapsed*rate samples, capped per call — this is what
+    """The pump ingests ~ elapsed*rate samples, capped per call - this is what
     lets the ~30 fps redraw stay decoupled from the ~100 Hz sample rate."""
     src = SyntheticSource(rate_hz=100.0)
     plot = LiveKneePlot(src, target_fps=30.0)

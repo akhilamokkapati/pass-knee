@@ -1,9 +1,9 @@
 """
-sources — PASS data-source abstraction.
+sources - PASS data-source abstraction.
 
 Every source (synthetic now; serial live sensor and HuGaDB offline later) exposes
 the SAME interface and emits the SAME packet schema, so the biomechanics engine
-never changes — only where the data comes from does.
+never changes - only where the data comes from does.
 
   stream()            -> yields Packet objects one at a time (real-time / live plot)
   get_data(duration)  -> returns a Capture of arrays (capture + offline analysis)

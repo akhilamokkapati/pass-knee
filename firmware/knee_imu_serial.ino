@@ -1,6 +1,6 @@
 /*
  * knee_imu_serial.ino
- * PASS knee module — XIAO ESP32-C3 + 2x BNO085 -> serial packet stream.
+ * PASS knee module - XIAO ESP32-C3 + 2x BNO085 -> serial packet stream.
  *
  * Emits one CSV line per sample in EXACTLY the contract that Python's
  * sources/serial_source.py parses (they are two halves of one tested contract):
@@ -24,7 +24,7 @@
  * ---------------------------------------------------------------------------
  * 1. LIBRARY: install "SparkFun BNO080 Cortex Based IMU" via Arduino Library
  *    Manager (works with BNO080/085/086). Header included below.
- * 2. BOARD: Seeed XIAO ESP32-C3 (or S3 — same I2C pins). Select it in the IDE.
+ * 2. BOARD: Seeed XIAO ESP32-C3 (or S3 - same I2C pins). Select it in the IDE.
  * 3. POWER: BNO085 is 3.3V ONLY. Feed both breakouts from the XIAO 3V3 pin.
  *    Never 5V. Common ground.
  * 4. I2C WIRING (XIAO: SDA=D4/GPIO6, SCL=D5/GPIO7). Bus shared by both sensors:
@@ -83,7 +83,7 @@ uint32_t lastEmit = 0;
 
 // Rough on-device knee angle: total relative rotation between the two
 // orientations = 2*acos(|dot(qt,qs)|). Mounting-dependent and not axis-isolated
-// ON PURPOSE — it is only a cross-check; the Python engine does swing-twist.
+// ON PURPOSE - it is only a cross-check; the Python engine does swing-twist.
 float roughKneeAngleDeg() {
   float dot = tw * sw + tx * sx + ty * sy + tz * sz;
   dot = fabs(dot);
@@ -97,7 +97,7 @@ void setup() {
   while (!Serial && (millis() - t0) < 3000) { /* wait up to 3 s for USB CDC */ }
 
   Wire.begin(D4, D5);        // XIAO ESP32-C3: SDA=D4 (GPIO6), SCL=D5 (GPIO7)
-  Wire.setClock(I2C_HZ);     // 100 kHz — required for BNO085 clock stretching
+  Wire.setClock(I2C_HZ);     // 100 kHz - required for BNO085 clock stretching
 
   Serial.println("# PASS knee IMU bring-up");
 
