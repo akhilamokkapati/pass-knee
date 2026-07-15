@@ -1,5 +1,7 @@
 // BTS7960B + 795 motor test sequence (Arduino Uno, hold-to-run button control)
 
+#include <Arduino.h>
+
 const int RPWM = 5;   // Uno pins 5/6 give ~980Hz PWM by default
 const int LPWM = 6;
 const int R_EN = 10;
@@ -16,6 +18,8 @@ const int RAMP_STEP_MS = 15;
 const int CURRENT_LIMIT_ADC = 158;
 
 bool hardwareFaultTripped = false;
+
+void emergencyStop();
 
 void setup() {
   Serial.begin(115200);
