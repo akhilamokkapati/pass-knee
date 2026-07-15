@@ -69,6 +69,8 @@
  */
 
 #include <Wire.h>
+#include <WiFi.h>
+#include <WiFiUdp.h>
 #include "SparkFun_BNO080_Arduino_Library.h"
 
 // ---- configuration ---------------------------------------------------------
@@ -88,6 +90,21 @@ static const uint32_t POST_ENABLE_MS  = 50;  // settle after enabling report
 // Runtime robustness.
 static const uint32_t SILENT_TIMEOUT_MS = 1000; // re-enable a sensor silent this long
 static const uint32_t HEALTH_MS         = 5000; // '#' health line cadence
+
+// ---- wireless (SoftAP + UDP broadcast) -------------------------------------
+// The XIAO raises its own WiFi network; the laptop joins it and receives the
+// same CSV line over UDP. Serial output is kept as a wired fallback, so ONE
+// firmware works both plugged in and on battery. AP password must be >= 8 chars.
+static const char*     AP_SSID   = "PASS-knee";
+static const char*     AP_PASS   = "passknee";
+static const uint16_t  UDP_PORT  = 5005;
+static const IPAddress UDP_BCAST(192, 168, 4, 255); // SoftAP subnet broadcast (fallback)
+WiFiUDP udp;
+
+// Discovered receiver. SoftAP broadcast is unreliable on ESP32, so the laptop
+// announces itself with a "hello" datagram and we unicast the stream back to it.
+IPAddress clientIP;
+bool      haveClient = false;
 
 BNO080 thigh;
 BNO080 shank;
@@ -151,6 +168,17 @@ void setup() {
 
   Serial.println("# PASS knee IMU bring-up");
 
+  // Raise the SoftAP so the laptop can join "PASS-knee" and receive UDP packets.
+  WiFi.mode(WIFI_AP);
+  WiFi.softAP(AP_SSID, AP_PASS);
+  Serial.print("# SoftAP up: SSID ");
+  Serial.print(AP_SSID);
+  Serial.print("  AP IP ");
+  Serial.print(WiFi.softAPIP());
+  Serial.print("  UDP port ");
+  Serial.println(UDP_PORT);
+  udp.begin(UDP_PORT);       // listen for the laptop's "hello" so we can unicast back
+
   delay(BOOT_DELAY_MS);      // BNO085 power-on boot before the first begin()
 
   // Per-sensor init with hardened timing so a feature command is never sent
@@ -168,6 +196,14 @@ void setup() {
 
 void loop() {
   uint32_t now = millis();
+
+  // Learn the receiver's address from any inbound datagram (its "hello"), then
+  // unicast the stream to it - reliable where SoftAP broadcast is not.
+  if (udp.parsePacket() > 0) {
+    clientIP = udp.remoteIP();
+    haveClient = true;
+    while (udp.available()) udp.read();     // drain the hello
+  }
 
   // Cache the freshest quaternion from each sensor as reports arrive, and track
   // per-sensor liveness (last-report time + count since boot).
@@ -213,17 +249,22 @@ void loop() {
   if (now - lastEmit >= EMIT_MS) {
     lastEmit = now;
 
-    Serial.print(seq);            Serial.print(',');
-    Serial.print(now);            Serial.print(',');
-    Serial.print(roughKneeAngleDeg(), 2); Serial.print(',');
-    Serial.print(tw, 6); Serial.print(',');
-    Serial.print(tx, 6); Serial.print(',');
-    Serial.print(ty, 6); Serial.print(',');
-    Serial.print(tz, 6); Serial.print(',');
-    Serial.print(sw, 6); Serial.print(',');
-    Serial.print(sx, 6); Serial.print(',');
-    Serial.print(sy, 6); Serial.print(',');
-    Serial.println(sz, 6);
+    // Build the CSV line once, then send it BOTH ways: serial (wired fallback)
+    // and UDP broadcast (wireless). Identical contract, so the host parser and
+    // both SerialSource and NetworkSource read it unchanged.
+    char line[160];
+    snprintf(line, sizeof(line),
+             "%lu,%lu,%.2f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f",
+             (unsigned long)seq, (unsigned long)now, roughKneeAngleDeg(),
+             tw, tx, ty, tz, sw, sx, sy, sz);
+
+    Serial.println(line);                              // wired fallback
+
+    IPAddress dest = haveClient ? clientIP : UDP_BCAST; // unicast once discovered
+    udp.beginPacket(dest, UDP_PORT);                    // wireless
+    udp.write((const uint8_t*)line, strlen(line));
+    udp.write((uint8_t)'\n');
+    udp.endPacket();
 
     seq++;
   }
